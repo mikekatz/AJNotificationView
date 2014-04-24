@@ -43,7 +43,7 @@
 
 @end
 
-//#define PANELHEIGHT  50.0f
+#define IMAGESIZE  50.0f
 
 static NSMutableArray *notificationQueue = nil;       // Global notification queue
 
@@ -68,7 +68,8 @@ static NSMutableArray *notificationQueue = nil;       // Global notification que
         
         //Title Label
         _parentView = parentView;
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 0, [self widthForLabel], [self heightForLabelWithTitle: title])];
+        CGFloat height = [self heightForLabelWithTitle: title];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 0, [self widthForLabel], height)];
         _titleLabel.textColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
         _titleLabel.font = [self titleFont];
         _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -86,7 +87,7 @@ static NSMutableArray *notificationQueue = nil;       // Global notification que
         [self addSubview:_detailDisclosureButton];
         
         // Image
-        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10.0, 0, PANELHEIGHT, PANELHEIGHT)];
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10.0, 0, height, height)];
         _imageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return self;
@@ -99,7 +100,8 @@ static NSMutableArray *notificationQueue = nil;       // Global notification que
 }
 
 - (CGFloat)widthForLabel {
-    return self.bounds.size.width - 10.f;
+    CGFloat margin = self.imageView.image ?  IMAGESIZE + 14.f : 10.f;
+    return self.bounds.size.width - margin;
 }
 
 - (UIFont *)titleFont {
@@ -112,10 +114,10 @@ static NSMutableArray *notificationQueue = nil;       // Global notification que
     self.imageView.image = image;
     if (image) {
         [self addSubview:_imageView];
-        CGFloat x = 14 + PANELHEIGHT;
-        _titleLabel.frame = CGRectMake(x, 0, self.bounds.size.width - x, PANELHEIGHT);
+        CGFloat x = 14 + IMAGESIZE;
+        _titleLabel.frame = CGRectMake(x, 0, self.bounds.size.width - x, [self heightForLabelWithTitle:self.titleLabel.text]);
     } else {
-        _titleLabel.frame = CGRectMake(10.0, 0, self.bounds.size.width -10, PANELHEIGHT);
+        _titleLabel.frame = CGRectMake(10.0, 0, self.bounds.size.width - 10.f, [self heightForLabelWithTitle:self.titleLabel.text]);
         [_imageView removeFromSuperview];
     }
 }
