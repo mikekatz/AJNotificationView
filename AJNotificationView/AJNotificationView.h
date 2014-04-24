@@ -70,4 +70,6 @@ typedef enum {
 
 + (void)clearQueue;
 
+- (void) setImage:(UIImage*)image;
+
 @end

@@ -26,6 +26,7 @@
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *detailDisclosureButton;
+@property (nonatomic, strong) UIImageView* imageView;
 @property (nonatomic) AJNotificationType notificationType;
 @property (nonatomic) AJLinedBackgroundType backgroundType;
 @property (nonatomic, assign) NSTimer *animationTimer;
@@ -83,6 +84,10 @@ static NSMutableArray *notificationQueue = nil;       // Global notification que
         _detailDisclosureButton.hidden = YES;
         [_detailDisclosureButton addTarget:self action:@selector(detailDisclosureButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_detailDisclosureButton];
+        
+        // Image
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10.0, 0, PANELHEIGHT, PANELHEIGHT)];
+        _imageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return self;
 }
@@ -101,6 +106,19 @@ static NSMutableArray *notificationQueue = nil;       // Global notification que
     return [UIFont boldSystemFontOfSize:15.0];
 }
 
+
+- (void)setImage:(UIImage *)image
+{
+    self.imageView.image = image;
+    if (image) {
+        [self addSubview:_imageView];
+        CGFloat x = 14 + PANELHEIGHT;
+        _titleLabel.frame = CGRectMake(x, 0, self.bounds.size.width - x, PANELHEIGHT);
+    } else {
+        _titleLabel.frame = CGRectMake(10.0, 0, self.bounds.size.width -10, PANELHEIGHT);
+        [_imageView removeFromSuperview];
+    }
+}
 - (void)drawRect:(CGRect)rect {
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self _drawBackgroundInRect:(CGRect)rect];
