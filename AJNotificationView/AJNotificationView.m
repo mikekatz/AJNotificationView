@@ -121,6 +121,7 @@ static NSMutableArray *notificationQueue = nil;       // Global notification que
         [_imageView removeFromSuperview];
     }
 }
+
 - (void)drawRect:(CGRect)rect {
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self _drawBackgroundInRect:(CGRect)rect];
